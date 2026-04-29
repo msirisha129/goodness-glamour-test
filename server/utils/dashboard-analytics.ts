@@ -94,7 +94,7 @@ export function parseDate(dateString: any): Date {
   for (const format of formats) {
     const match = dateString.match(format);
     if (match) {
-      let year: string | number, month: string | number, day: string | number;
+      let year: string | number = new Date().getFullYear(), month: string | number = 1, day: string | number = 1;
       let hourStr = "0", minuteStr = "0", secondStr = "0", period: string | undefined;
       let hourNum = 0, minuteNum = 0, secondNum = 0;
       
@@ -322,7 +322,7 @@ export async function processDashboardData(timeRange: string = 'all'): Promise<D
       };
       console.log(`📧 Message stats calculated successfully`);
     } catch (error) {
-      console.error(`❌ Error calculating message stats:`, error.message);
+      console.error(`❌ Error calculating message stats:`, (error as any).message);
       messageStats = { totalMessages: messagesData.length, messagesToday: 0, messagesThisWeek: 0, messagesThisMonth: 0, conversionRate: 0 };
     }
 
@@ -463,7 +463,7 @@ function generateTimeSeries(data: any[], dateField: string, valueField: string, 
           console.log(`📈 Message ${index}: ${dateValue} -> ${dateKey}`);
         }
       } catch (itemError) {
-        console.log(`📈 Error processing item ${index}:`, itemError.message);
+        console.log(`📈 Error processing item ${index}:`, (itemError as any).message);
       }
     });
     
@@ -478,7 +478,7 @@ function generateTimeSeries(data: any[], dateField: string, valueField: string, 
     console.log(`📈 Generated ${result.length} time series data points`);
     return result;
   } catch (error) {
-    console.error(`📈 Error in generateTimeSeries:`, error.message);
+    console.error(`📈 Error in generateTimeSeries:`, (error as any).message);
     return [];
   }
 }

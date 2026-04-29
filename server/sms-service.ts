@@ -1,4 +1,5 @@
 import axios from 'axios';
+import twilio from 'twilio';
 
 export interface SMSConfig {
   // TextLocal Configuration (India-focused, cheaper alternative)
@@ -14,6 +15,10 @@ export interface SMSConfig {
   smsGatewayUrl?: string;
   smsGatewayApiKey?: string;
   smsGatewaySender?: string;
+
+  twilioAccountSid?: string;
+  twilioAuthToken?: string;
+  twilioPhoneNumber?: string;
 }
 
 export interface SMSMessage {
@@ -36,7 +41,29 @@ class SMSService {
   constructor(config: SMSConfig) {
     this.config = config;
   }
+  private async sendViaTwilio(smsMessage: SMSMessage): Promise<SMSResult> {
+    if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN) {
+      throw new Error('Twilio not configured');
+    }
 
+    const client = twilio(
+        process.env.TWILIO_ACCOUNT_SID,
+        process.env.TWILIO_AUTH_TOKEN
+    );
+
+    const res = await client.messages.create({
+      body: smsMessage.message,
+      from: process.env.TWILIO_PHONE_NUMBER,
+      to: smsMessage.to.startsWith('+91')
+          ? smsMessage.to
+          : `+91${smsMessage.to}`,
+    });
+
+    return {
+      success: true,
+      messageId: res.sid
+    };
+  }
   /**
    * Send SMS using multiple providers with fallback
    */
@@ -45,6 +72,7 @@ class SMSService {
     
     // Try providers in order of preference (free/cheapest first)
     const providers = [
+      { name: 'Twilio', method: this.sendViaTwilio.bind(this) },
       { name: 'TextLocal', method: this.sendViaTextLocal.bind(this) },
       { name: 'MSG91', method: this.sendViaMSG91.bind(this) },
       { name: 'Generic Gateway', method: this.sendViaGenericGateway.bind(this) }

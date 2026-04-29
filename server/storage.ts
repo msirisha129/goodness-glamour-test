@@ -346,8 +346,7 @@ export class MemStorage implements IStorage {
     
     const updatedBooking: Booking = { 
       ...booking, 
-      ...updatedData,
-      updatedAt: new Date()
+      ...updatedData
     };
     this.bookings.set(id, updatedBooking);
     console.log(`✅ Booking ${id} updated in storage. New data:`, updatedBooking);
