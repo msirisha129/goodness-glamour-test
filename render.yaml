@@ -32,7 +32,3 @@ services:
       # Database (Neon/PostgreSQL - required for persistent data)
       - key: DATABASE_URL
         sync: false
-
-
-
-
