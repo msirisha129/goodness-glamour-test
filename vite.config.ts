@@ -27,18 +27,16 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
-    minify: "terser",
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
-    },
+    minify: "esbuild",
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ["react", "react-dom"],
-          ui: ["lucide-react", "@radix-ui/react-dialog", "@radix-ui/react-select"],
+        manualChunks: (id) => {
+          if (id.includes("node_modules/react")) return "vendor";
+          if (id.includes("node_modules/lucide-react") ||
+              id.includes("node_modules/@radix-ui/react-dialog") ||
+              id.includes("node_modules/@radix-ui/react-select")) {
+            return "ui";
+          }
         },
       },
     },
