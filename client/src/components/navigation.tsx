@@ -102,8 +102,21 @@ export default function Navigation() {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-            ) : null}
-            
+            ) : (
+              <div className="flex items-center space-x-4">
+                <Link href="/login">
+                  <Button variant="ghost" className="text-[#faf8f3] hover:text-[#d4af37] hover:bg-[#d4af37]/10">
+                    Login
+                  </Button>
+                </Link>
+                <Link href="/signup">
+                  <Button className="bg-[#c9a869] text-[#2c1810] hover:bg-[#d4af37]">
+                    Sign Up
+                  </Button>
+                </Link>
+              </div>
+            )}
+
             <Link href="/booking" data-testid="button-book-now">
               <Button className="flex items-center text-lg px-6 py-3 bg-[#c9a869] text-[#2c1810] hover:bg-[#d4af37]">
                 <Calendar className="h-5 w-5 mr-2" />
@@ -170,8 +183,21 @@ export default function Navigation() {
                         Logout
                       </Button>
                     </>
-                  ) : null}
-                  
+                  ) : (
+                    <div className="flex flex-col space-y-3">
+                      <Link href="/login" onClick={() => setIsOpen(false)}>
+                        <Button variant="ghost" className="w-full justify-start">
+                          Login
+                        </Button>
+                      </Link>
+                      <Link href="/signup" onClick={() => setIsOpen(false)}>
+                        <Button className="w-full bg-[#c9a869] text-[#2c1810] hover:bg-[#d4af37]">
+                          Sign Up
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
+
                   <Link href="/booking" onClick={() => setIsOpen(false)} data-testid="button-mobile-book">
                     <Button className="btn-primary w-full flex items-center justify-center text-lg py-3">
                       <Calendar className="h-5 w-5 mr-2" />

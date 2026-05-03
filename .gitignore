@@ -34,3 +34,4 @@ __pycache__/
 
 # Excel data (optional if generated)
 data/*.xlsx
+.env

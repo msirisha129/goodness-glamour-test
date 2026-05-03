@@ -74,7 +74,7 @@ app.use((req, res, next) => {
 
     // ALWAYS serve the app on the port specified in the environment variable PORT
     // Render requires binding to PORT and 0.0.0.0
-    const port = parseInt(process.env.PORT || '5000', 10);
+    const port = parseInt(process.env.PORT || '3001', 10);
     server.listen(port, "0.0.0.0", () => {
       log(`serving on port ${port}`);
     });

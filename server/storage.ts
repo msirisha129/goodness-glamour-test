@@ -40,6 +40,7 @@ export interface IStorage {
   // Users (Authentication)
   getUser(id: string): Promise<User | undefined>;
   getUserByEmail(email: string): Promise<User | undefined>;
+  getUserByPhone(phone: string): Promise<User | undefined>;
   getAllUsers(): Promise<User[]>;
   createUserWithOTP(userData: InsertUser & { otp: string; otpExpiry: Date }): Promise<User>;
   verifyUserOTP(userId: string): Promise<User | undefined>;
@@ -431,6 +432,10 @@ export class MemStorage implements IStorage {
 
   async getUserByEmail(email: string): Promise<User | undefined> {
     return Array.from(this.users.values()).find(user => user.email === email);
+  }
+
+  async getUserByPhone(phone: string): Promise<User | undefined> {
+    return Array.from(this.users.values()).find(user => user.phone === phone);
   }
 
   async getAllUsers(): Promise<User[]> {

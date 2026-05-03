@@ -8,6 +8,7 @@ import { processContactMessage, processBooking, sendOTPEmail } from "./email-ser
 import { chatWithGemini, resetChatSession, testGeminiConnection } from "./gemini-service";
 import { hashPassword, comparePassword, generateToken } from "./auth-service";
 import { generateOTP, getOTPExpiry, isOTPExpired, isValidOTPFormat, isTooManyAttempts } from "./otp-service";
+import { sendOTPSMS, formatPhoneNumber, isValidPhoneNumber } from "./sms-otp-service";
 import { processDashboardData } from "./utils/dashboard-analytics";
 import { requireAuth, requireAdmin } from "./middleware/auth-middleware";
 import { 

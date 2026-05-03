@@ -9,12 +9,12 @@ export default defineConfig({
     runtimeErrorOverlay(),
     ...(process.env.NODE_ENV !== "production" &&
     process.env.REPL_ID !== undefined
-      ? [
+        ? [
           await import("@replit/vite-plugin-cartographer").then((m) =>
-            m.cartographer(),
+              m.cartographer(),
           ),
         ]
-      : []),
+        : []),
   ],
   resolve: {
     alias: {
@@ -32,9 +32,11 @@ export default defineConfig({
       output: {
         manualChunks: (id) => {
           if (id.includes("node_modules/react")) return "vendor";
-          if (id.includes("node_modules/lucide-react") ||
+          if (
+              id.includes("node_modules/lucide-react") ||
               id.includes("node_modules/@radix-ui/react-dialog") ||
-              id.includes("node_modules/@radix-ui/react-select")) {
+              id.includes("node_modules/@radix-ui/react-select")
+          ) {
             return "ui";
           }
         },
@@ -44,12 +46,13 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000,
   },
   server: {
+    // ✅ FIXED: Removed wrong proxy, backend serves everything on port 3000
     fs: {
       strict: true,
       deny: ["**/.*"],
     },
     hmr: {
-      overlay: false, // Disable error overlay to prevent issues with Radix UI portals
+      overlay: false,
     },
   },
 });

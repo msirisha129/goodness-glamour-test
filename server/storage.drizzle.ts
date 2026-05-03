@@ -209,6 +209,11 @@ export class DrizzleStorage implements IStorage {
     return rows[0];
   }
 
+  async getUserByPhone(phone: string): Promise<User | undefined> {
+    const rows = await db.select().from(users).where(eq(users.phone, phone)).limit(1);
+    return rows[0];
+  }
+
   async getAllUsers(): Promise<User[]> {
     return db.select().from(users).orderBy(desc(users.createdAt));
   }
